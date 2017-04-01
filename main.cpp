@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    qDebug() << "EventDataAnalyzer 0.1 Beta";
+    qDebug() << "MainWindow Succesfully loaded";
 
     return a.exec();
 }
