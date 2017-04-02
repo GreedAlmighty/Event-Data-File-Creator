@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "errordialog.h"
 
 const QString SoftwareVersion = "0.1 BETA";
 
@@ -33,7 +32,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    ErrorDialog errorDialog;
 };
 
 #endif // MAINWINDOW_H

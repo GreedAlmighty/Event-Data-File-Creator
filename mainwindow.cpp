@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "errordialog.h"
+#include <QMessageBox>
 
 static bool text_fileTextBrowser_changed;
 static bool text_locationTextBrowser_changed;
@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //TODO remove the Boolians used for process control.
     //TODO make sure the path to the selected file is shown in the fileTextBrowser.
     //TODO Verify the openFileButton opens the selected file in windows explorer.
-    //TODO Research the method to save the opened CSV file in QT.
+    //TODO Research the method to save the data from the CSV file in QT.
     //TODO When opening the file, show the progress in the openProgressBar.
     //TODO Show the saveLocationLabel, locationTextBrowser, selectLocationButton, createDataFileButton and createProgressBar.
     //TODO Open a windows explorer window when the selectLocationButton is clicked.
@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_openFileButton_clicked()
 {
     if(!text_fileTextBrowser_changed){
-        errorDialog.set_errorLabel("Please select a file first!");
+        QMessageBox::warning(this, "Error", "Please select a file first!", "Accept");
     }
     else{
         //open selected file
@@ -90,7 +90,7 @@ void MainWindow::on_selectLocationButton_clicked()
 void MainWindow::on_createDataFileButton_clicked()
 {
     if(!text_locationTextBrowser_changed){
-        errorDialog.set_errorLabel("Please select a save location First!");
+        QMessageBox::warning(this, "Error", "Please select a save location first!", "Accept");
     }
     else{
         //create datafile
