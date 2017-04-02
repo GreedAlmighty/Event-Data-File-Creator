@@ -24,8 +24,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    errordialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    errordialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    errordialog.ui
