@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QFileDialog>
 
 static bool text_fileTextBrowser_changed;
 static bool text_locationTextBrowser_changed;
@@ -23,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     text_fileTextBrowser_changed = false;
     text_locationTextBrowser_changed = false;
 
-    //TODO make sure the selectFileButton open a windows explorer window
     //TODO remove the Boolians used for process control.
     //TODO make sure the path to the selected file is shown in the fileTextBrowser.
     //TODO Verify the openFileButton opens the selected file in windows explorer.
@@ -65,15 +65,23 @@ void MainWindow::on_openFileButton_clicked()
     }
 }
 
-void MainWindow::on_fileTextBrowser_textChanged()
-{
-    text_fileTextBrowser_changed = true;
-}
-
 void MainWindow::on_selectFileButton_clicked()
 {
-    //Test button because opening a file explorer broswer is too complex at this moment.
-    ui->fileTextBrowser->setText("Text has changed now!");
+    QFileDialog selectFileDialog;
+    QString selectedFilePath;
+
+    selectedFilePath = selectFileDialog.getOpenFileName(this,
+                                                        tr("Open MasterCSV"),
+                                                        "C:",
+                                                        tr("CSV files (*.csv)"));
+
+    if(selectedFilePath==""){
+        QMessageBox::warning(this, "Error", "Please select a file first!", "Accept");
+    }
+    else{
+        ui->fileTextBrowser->setText(selectedFilePath);
+        text_fileTextBrowser_changed = true;
+    }
 }
 
 void MainWindow::on_locationTextBrowser_textChanged()

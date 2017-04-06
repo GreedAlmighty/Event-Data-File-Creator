@@ -20,8 +20,6 @@ public:
 private slots:
     void on_openFileButton_clicked();
 
-    void on_fileTextBrowser_textChanged();
-
     void on_selectFileButton_clicked();
 
     void on_locationTextBrowser_textChanged();
