@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-static bool text_fileTextBrowser_changed;
 static bool text_locationTextBrowser_changed;
 
 
@@ -21,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->saveLocationLabel->hide();
     ui->selectLocationButton->hide();
 
-    text_fileTextBrowser_changed = false;
     text_locationTextBrowser_changed = false;
 
     //TODO remove the Boolians used for process control.
@@ -55,32 +53,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_openFileButton_clicked()
-{
-    if(!text_fileTextBrowser_changed){
-        QMessageBox::warning(this, "Error", "Please select a file first!", "Accept");
-    }
-    else{
-        //open selected file
-    }
-}
-
 void MainWindow::on_selectFileButton_clicked()
 {
     QFileDialog selectFileDialog;
-    QString selectedFilePath;
 
-    selectedFilePath = selectFileDialog.getOpenFileName(this,
-                                                        tr("Open MasterCSV"),
-                                                        "C:",
-                                                        tr("CSV files (*.csv)"));
+    QString selectedFilePath = selectFileDialog.getOpenFileName(this,
+                                                                tr("Open MasterCSV"),
+                                                                "C:",
+                                                                tr("CSV files (*.csv)"));
 
     if(selectedFilePath==""){
         QMessageBox::warning(this, "Error", "Please select a file first!", "Accept");
     }
     else{
         ui->fileTextBrowser->setText(selectedFilePath);
-        text_fileTextBrowser_changed = true;
+        //open file
     }
 }
 
