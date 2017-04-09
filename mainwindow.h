@@ -24,7 +24,7 @@ private slots:
 
     void on_selectLocationButton_clicked();
 
-    void on_createDataFileButton_clicked();
+    void on_createFileButton_clicked();
 
 private:
     Ui::MainWindow *ui;

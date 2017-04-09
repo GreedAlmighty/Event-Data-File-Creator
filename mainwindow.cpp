@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "filecommands.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
 static bool text_locationTextBrowser_changed;
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,35 +13,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle( "Event Data File Analyzer " + SoftwareVersion);
 
-    ui->openDataFileButton->hide();
+    ui->createFileButton->hide();
     ui->createProgressBar->hide();
-    ui->createDataFileButton->hide();
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
-    ui->selectLocationButton->hide();
 
     text_locationTextBrowser_changed = false;
 
-    //TODO remove the Boolians used for process control.
-    //TODO make sure the path to the selected file is shown in the fileTextBrowser.
-    //TODO Verify the openFileButton opens the selected file in windows explorer.
-    //TODO Research the method to save the data from the CSV file in QT.
+    //TODO remove the Boolian used for process control.
+    //TODO Verify the selectedFileButton opens the selected file in windows explorer.
     //TODO When opening the file, show the progress in the openProgressBar.
     //TODO Show the saveLocationLabel, locationTextBrowser, selectLocationButton, createDataFileButton and createProgressBar.
-    //TODO Open a windows explorer window when the selectLocationButton is clicked.
+    //TODO Open a windows explorer window when the createFileButton is clicked.
     //TODO show the selected location in the locationTextBrowser.
-    //TODO Research how to calculate the data with similar Excel functions.
-        //1ST - calculate all detected tags and calculate the detection rate for each location
-        //2ND - create a list of all tags that were detected.
-        //3RD - show on which location the tag has been detected and on which it wasnt.
-        //4TH - show how many tags missed only one timeline.
-        //5TH - show how many tags missed multiple timelines.
-    //TODO Research how to create a CSV file using QT.
-    //TODO Research how to create a well structured CSV/Excel file.
-    //TODO Create the Excel file when the createDataFileButton is clicked.
+    //TODO Create a datafile when the save location is selected.
     //TODO Show the creation progress in the createProgressBar.
-    //TODO When the file is created, show the openDataFileButton.
-    //TODO When the openDataFileButton is clicked, open the created Excel file.
+    //TODO When the file is created, show a Finished message and the Button to open the file.
+    //TODO When the Button is clicked, open the created Excel file.
 
     /*ADDITIONAL FEATURES
      * add a filter function to filter the loaded data
@@ -56,6 +44,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_selectFileButton_clicked()
 {
     QFileDialog selectFileDialog;
+    FileCommands master_csv;
 
     QString selectedFilePath = selectFileDialog.getOpenFileName(this,
                                                                 tr("Open MasterCSV"),
@@ -64,11 +53,10 @@ void MainWindow::on_selectFileButton_clicked()
 
     if(selectedFilePath==""){
         QMessageBox::warning(this, "Error", "Please select a file first!", "Accept");
+        return;
     }
-    else{
-        ui->fileTextBrowser->setText(selectedFilePath);
-        //open file
-    }
+    ui->fileTextBrowser->setText(selectedFilePath);
+    master_csv.ReadFile( selectedFilePath );
 }
 
 void MainWindow::on_locationTextBrowser_textChanged()
@@ -82,7 +70,7 @@ void MainWindow::on_selectLocationButton_clicked()
     ui->locationTextBrowser->setText("Text has changed now!");
 }
 
-void MainWindow::on_createDataFileButton_clicked()
+void MainWindow::on_createFileButton_clicked()
 {
     if(!text_locationTextBrowser_changed){
         QMessageBox::warning(this, "Error", "Please select a save location first!", "Accept");
