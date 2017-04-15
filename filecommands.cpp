@@ -20,7 +20,7 @@ void FileCommands::ReadFile( QString FileName)
     bool first_row = true;
 
     while(!in.atEnd()){
-        QString line = in.readLine();
+        QString line = "'" + in.readLine() + "'";
 
         if(first_row){
             //First row wont be imported.
@@ -30,12 +30,16 @@ void FileCommands::ReadFile( QString FileName)
         }
         else{
             //import values into the created database
+            line.replace(";", "', '");
 
+            qDebug() << line;
+            sql_db.insertIntoDatabase( line );
         }
     }
+    sql_db.endTransaction();
+    qDebug() << "Done importing file...";
 }
 
-//TODO Create a SQL database to import the CSV data in
 //TODO Research how to create a CSV file using QT.
 //TODO Research how to create a well structured CSV/Excel file.
 

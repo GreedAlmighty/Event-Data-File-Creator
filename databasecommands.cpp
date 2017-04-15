@@ -5,6 +5,9 @@
 #include <QDir>
 #include "databasecommands.h"
 
+QSqlDatabase db;
+QSqlQuery query;
+
 void DBCommands::createDatabase()
 {
     QDir database_path;
@@ -19,6 +22,28 @@ void DBCommands::createDatabase()
     QSqlQuery query(db);
 
     if(!query.exec(create_table_query)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    query.exec("BEGIN TRANSACTION");
+}
+
+void DBCommands::insertIntoDatabase( QString values )
+{
+    QSqlQuery query(db);
+    QString insert = "INSERT INTO mastercsv "
+                     "VALUES (" + values + ");";
+
+    if(!query.exec(insert)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+}
+
+void DBCommands::endTransaction()
+{
+    QSqlQuery query(db);
+    QString trans = "END TRANSACTION";
+
+    if(!query.exec(trans)){
         qDebug() << "error with query :" + query.lastError().text();
     }
 }

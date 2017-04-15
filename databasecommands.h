@@ -5,7 +5,7 @@
 
 const QString create_table_query = "create table mastercsv "
                                    "(chipcode int, "
-                                   "time datetime, "
+                                   "time time, "
                                    "file char, "
                                    "device char, "
                                    "location char, "
@@ -21,6 +21,8 @@ class DBCommands
 
 public:
     void createDatabase();
+    void insertIntoDatabase( QString values );
+    void endTransaction();
 
 private:
 };
