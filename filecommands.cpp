@@ -31,13 +31,12 @@ void FileCommands::ReadFile( QString FileName)
         else{
             //import values into the created database
             line.replace(";", "', '");
-
-            qDebug() << line;
             sql_db.insertIntoDatabase( line );
         }
     }
     sql_db.endTransaction();
     qDebug() << "Done importing file...";
+    qDebug() << sql_db.retrieveListOfUniqueNumbers( "chipcode" );
 }
 
 //TODO Research how to create a CSV file using QT.

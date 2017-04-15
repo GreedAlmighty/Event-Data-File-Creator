@@ -2,6 +2,7 @@
 #define DATABASECOMMANDS_H
 
 #include <QString>
+#include <QList>
 
 const QString create_table_query = "create table mastercsv "
                                    "(chipcode int, "
@@ -23,6 +24,8 @@ public:
     void createDatabase();
     void insertIntoDatabase( QString values );
     void endTransaction();
+    QList<QString> retrieveListOfUniqueText( QString column );
+    QList<int> retrieveListOfUniqueNumbers( QString column );
 
 private:
 };

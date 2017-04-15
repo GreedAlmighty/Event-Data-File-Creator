@@ -30,10 +30,10 @@ void DBCommands::createDatabase()
 void DBCommands::insertIntoDatabase( QString values )
 {
     QSqlQuery query(db);
-    QString insert = "INSERT INTO mastercsv "
+    QString qry = "INSERT INTO mastercsv "
                      "VALUES (" + values + ");";
 
-    if(!query.exec(insert)){
+    if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
     }
 }
@@ -41,17 +41,48 @@ void DBCommands::insertIntoDatabase( QString values )
 void DBCommands::endTransaction()
 {
     QSqlQuery query(db);
-    QString trans = "END TRANSACTION";
+    QString qry = "END TRANSACTION";
 
-    if(!query.exec(trans)){
+    if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
     }
 }
 
-//TODO Create QSqlQueries to read/calculate the data
-//TODO Research how to calculate the data with similar Excel functions.
-    //1ST - calculate all detected tags and calculate the detection rate for each location
-    //2ND - create a list of all tags that were detected.
-    //3RD - show on which location the tag has been detected and on which it wasnt.
-    //4TH - show how many tags missed only one timeline.
-    //5TH - show how many tags missed multiple timelines.
+QList<QString> DBCommands::retrieveListOfUniqueText( QString column )
+{
+    QStringList str_list;
+
+    QSqlQuery query(db);
+    QString qry = "SELECT DISTINCT " + column +
+                  " FROM mastercsv;";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    while(query.next()){
+        QString value = query.value(0).toString();
+        str_list.append(value);
+    }
+    return str_list;
+}
+
+QList<int> DBCommands::retrieveListOfUniqueNumbers( QString column )
+{
+    QList<int> int_list;
+
+    QSqlQuery query(db);
+    QString qry = "SELECT DISTINCT " + column +
+                  " FROM mastercsv;";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    while(query.next()){
+        int value = query.value(0).toInt();
+        int_list.append(value);
+    }
+    return int_list;
+}
+
+//Create a function that returns all counted values for a column
+//Create a function that returns all counted values with a statement
