@@ -29,6 +29,7 @@ SOURCES += main.cpp\
     databasecommands.cpp
 
 HEADERS  += mainwindow.h \
-    filecommands.h
+    filecommands.h \
+    databasecommands.h
 
 FORMS    += mainwindow.ui

@@ -1,29 +1,36 @@
-#include "filecommands.h"
 #include <QFile>
 #include <QString>
 #include <QTextStream>
 #include <QStringList>
 #include <QMessageBox>
 #include <QDebug>
+#include "filecommands.h"
+#include "databasecommands.h"
 
 void FileCommands::ReadFile( QString FileName)
 {
     QFile master_csv(FileName);
+    DBCommands sql_db;
 
     if(!master_csv.open(QIODevice::ReadOnly | QIODevice::Text)){
         return;
     }
 
     QTextStream in(&master_csv);
+    bool first_row = true;
 
     while(!in.atEnd()){
         QString line = in.readLine();
-        QStringList sList = line.split(";", QString::SkipEmptyParts);
 
-        //TODO replace foreach loop with SQL insert command
-        foreach( QString itm, sList)
-        {
-            qDebug() << itm;
+        if(first_row){
+            //First row wont be imported.
+            //DB is created with standard headers of master csv file
+            first_row = false;
+            sql_db.createDatabase();
+        }
+        else{
+            //import values into the created database
+
         }
     }
 }
