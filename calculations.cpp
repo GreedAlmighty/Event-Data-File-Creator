@@ -13,8 +13,6 @@ void calculations::performCalculations()
     QMap<QString, QString> location_detectionrate;
     QString detection_rate_str;
     double total_detection = getAllTags();
-    qDebug() << total_detection;
-
     retrieveAllLocations();
     foreach( QString str, location_list)
     {
