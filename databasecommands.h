@@ -24,6 +24,10 @@ public:
     void createDatabase();
     void insertIntoDatabase( QString values );
     void endTransaction();
+    int countAllValues();
+    int countAllDistinctValues( QString column );
+    int countDistinctValuesWithCondition( QString column, QString condition);
+    int countValuesWithCondition( QString column, QString statement );
     QList<QString> retrieveListOfUniqueText( QString column );
     QList<int> retrieveListOfUniqueNumbers( QString column );
 

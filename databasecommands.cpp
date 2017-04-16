@@ -84,5 +84,70 @@ QList<int> DBCommands::retrieveListOfUniqueNumbers( QString column )
     return int_list;
 }
 
+int DBCommands::countDistinctValuesWithCondition( QString column, QString condition)
+{
+    QSqlQuery query(db);
+
+    QString qry = "SELECT DISTINCT " + column +
+                  " FROM mastercsv"
+                  " WHERE " + condition +
+                  ";";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    if(query.last()){
+        return query.at() + 1;
+    }
+    return -1;
+}
+
+int DBCommands::countValuesWithCondition( QString column, QString condition )
+{
+    QSqlQuery query(db);
+
+    QString qry = "SELECT " + column +
+                  " FROM mastercsv"
+                  " WHERE " + condition +
+                  ";";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    if(query.last()){
+        return query.at() + 1;
+    }
+    return -1;
+}
+
+int DBCommands::countAllDistinctValues( QString column )
+{
+    QSqlQuery query(db);
+    QString qry = "SELECT DISTINCT " + column +
+                  " FROM mastercsv;";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    if(query.last()){
+        return query.at() + 1;
+    }
+    return -1;
+}
+
+int DBCommands::countAllValues(){
+    QSqlQuery query(db);
+
+    QString qry = "SELECT * FROM mastercsv";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    if(query.last()){
+        return query.at() + 1;
+    }
+    return -1;
+}
+
 //Create a function that returns all counted values for a column
 //Create a function that returns all counted values with a statement

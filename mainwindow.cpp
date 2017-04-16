@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "filecommands.h"
+#include "calculations.h"
 #include <QMessageBox>
 #include <QFileDialog>
-
-static bool text_locationTextBrowser_changed;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,8 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->createProgressBar->hide();
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
-
-    text_locationTextBrowser_changed = false;
 
     //TODO remove the Boolian used for process control.
     //TODO Verify the selectedFileButton opens the selected file in windows explorer.
@@ -57,25 +54,15 @@ void MainWindow::on_selectFileButton_clicked()
     }
     ui->fileTextBrowser->setText(selectedFilePath);
     master_csv.ReadFile( selectedFilePath );
-}
-
-void MainWindow::on_locationTextBrowser_textChanged()
-{
-    text_locationTextBrowser_changed = true;
-}
-
-void MainWindow::on_selectLocationButton_clicked()
-{
-    //Test button because selecting save location isn't added yet.
-    ui->locationTextBrowser->setText("Text has changed now!");
+    ui->createFileButton->show();
+    ui->createProgressBar->show();
+    ui->locationTextBrowser->show();
+    ui->saveLocationLabel->show();
 }
 
 void MainWindow::on_createFileButton_clicked()
 {
-    if(!text_locationTextBrowser_changed){
-        QMessageBox::warning(this, "Error", "Please select a save location first!", "Accept");
-    }
-    else{
-        //create datafile
-    }
+    calculations calc;
+
+    calc.performCalculations();
 }
