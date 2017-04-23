@@ -2,38 +2,36 @@
 #include "databasecommands.h"
 #include "filecommands.h"
 #include <QList>
-#include <QMap>
 #include <QString>
 #include <QDebug>
 
 QList<QString> location_list;
 
-void calculations::performCalculations()
+void calculations::performCalculations( QString save_location )
 {
-    QMap<QString, QString> location_detectionrate;
+    FileCommands data_file;
+
+    QStringList detection_rate_list = getDetectionRates();
+
+    data_file.WriteFile( save_location + "/detection_rates.csv", detection_rate_list);
+}
+
+QStringList calculations::getDetectionRates(){
     QString detection_rate_str;
+    QStringList detection_rate_list;
+
     double total_detection = getAllTags();
     retrieveAllLocations();
+    detection_rate_list.append("Location;Detection Rate");
+
     foreach( QString str, location_list)
     {
         double detections_on_location = getAllTagsForLocation( str );
         double detection_rate_for_location = detections_on_location * 100 / total_detection;
-        detection_rate_str = detection_rate_str.number( detection_rate_for_location );
-        location_detectionrate.insert( str, detection_rate_str );
-        qDebug() << "Calculating...";
+        detection_rate_str = detection_rate_str.number( detection_rate_for_location, 'g', 5);
+        detection_rate_list.append(str + ";" + detection_rate_str + ";");
     }
-
-    qDebug() << "Finished Calculating...";
-    QMapIterator<QString, QString> Iter(location_detectionrate);
-
-    while(Iter.hasNext())
-    {
-        Iter.next();
-        qDebug() << Iter.key() << ";" << Iter.value();
-    }
-
-    //Perform calculations to determine detection rate
-    //Write calculation to file
+    return detection_rate_list;
 }
 
 void calculations::retrieveAllLocations()

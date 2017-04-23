@@ -2,16 +2,18 @@
 #define CALCULATIONS_H
 
 #include <QString>
+#include <QStringList>
 
 class calculations
 {
 public:
-    void performCalculations();
+    void performCalculations( QString save_location );
 
 private:
     void retrieveAllLocations();
     int getAllTags();
     int getAllTagsForLocation( QString location );
+    QStringList getDetectionRates();
 };
 
 #endif // CALCULATIONS_H

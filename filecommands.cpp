@@ -39,6 +39,23 @@ void FileCommands::ReadFile( QString FileName)
     qDebug() << sql_db.retrieveListOfUniqueNumbers( "chipcode" );
 }
 
-//TODO Research how to create a CSV file using QT.
-//TODO Research how to create a well structured CSV/Excel file.
+bool FileCommands::WriteFile( QString FileName, QStringList FileData)
+{
+    QFile write_file(FileName);
 
+    if(!write_file.open(QFile::WriteOnly | QFile::Text)){
+        return false;
+    }
+
+    QTextStream out(&write_file);
+
+    foreach (QString str, FileData) {
+        out << str << endl;
+    }
+
+    write_file.flush();
+    write_file.close();
+    return true;
+}
+
+//TODO Research how to create a CSV file using QT.

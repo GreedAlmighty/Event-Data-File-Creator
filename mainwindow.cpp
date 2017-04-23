@@ -63,6 +63,10 @@ void MainWindow::on_selectFileButton_clicked()
 void MainWindow::on_createFileButton_clicked()
 {
     calculations calc;
+    QFileDialog selectLocationDialog;
 
-    calc.performCalculations();
+    QString selectedLocation = selectLocationDialog.getExistingDirectory(this,
+                                                                         tr("Open Location"),
+                                                                         "C:");
+    calc.performCalculations( selectedLocation );
 }
