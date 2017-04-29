@@ -54,7 +54,8 @@ QList<QString> DBCommands::retrieveListOfUniqueText( QString column )
 
     QSqlQuery query(db);
     QString qry = "SELECT DISTINCT " + column +
-                  " FROM mastercsv;";
+                  " FROM mastercsv" +
+                  " ORDER BY " + column;
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
@@ -64,6 +65,61 @@ QList<QString> DBCommands::retrieveListOfUniqueText( QString column )
         str_list.append(value);
     }
     return str_list;
+}
+
+QList<QString> DBCommands::performListofDetections( QString condition, QString order_by )
+{
+    QSqlQuery query(db);
+    QStringList str_data_list;
+
+    QString qry = "SELECT DISTINCT " + condition +
+                  " FROM mastercsv"
+                  " ORDER BY " + order_by +
+                  ";";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    while(query.next()){
+        str_data_list.append( query.value(0).toString() );
+        str_data_list.append( query.value(1).toString() );
+        str_data_list.append( query.value(2).toString() );
+    }
+    return str_data_list;
+}
+
+QList<QString> DBCommands::getListofDistinctTextWithCondition( QString column, QString condition)
+{
+    QSqlQuery query(db);
+    QStringList str_list;
+
+    QString qry = "SELECT DISTINCT " + column +
+                  " FROM mastercsv"
+                  " WHERE " + condition +
+                  ";";
+
+    if(!query.exec(qry)){
+        qDebug() << "error with query :" + query.lastError().text();
+    }
+    while (query.next()) {
+        str_list.append( query.value(0).toString() );
+    }
+    return str_list;
+}
+
+QString DBCommands::retrieveValueFromQuery()
+{
+    QString str;
+
+    if(query.next()){
+        QString value0 = query.value(0).toString();
+        QString value1 = query.value(1).toString();
+        QString value2 = query.value(2).toString();
+        str = value0 + "-" + value1 + "-" + value2;
+        return str;
+    }
+    else
+        return "end";
 }
 
 QList<int> DBCommands::retrieveListOfUniqueNumbers( QString column )
@@ -149,5 +205,4 @@ int DBCommands::countAllValues(){
     return -1;
 }
 
-//Create a function that returns all counted values for a column
-//Create a function that returns all counted values with a statement
+//TODO CLEAN UP THIS CODE

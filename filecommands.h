@@ -11,6 +11,7 @@ public:
     bool WriteFile( QString FileName, QStringList FileData);
 
 private:
+    QString createGroupId( int chipcode_length, QString csv_line );
 };
 
 #endif // FILECOMMANDS_H

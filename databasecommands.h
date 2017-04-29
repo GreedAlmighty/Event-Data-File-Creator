@@ -5,7 +5,8 @@
 #include <QList>
 
 const QString create_table_query = "create table mastercsv "
-                                   "(chipcode int, "
+                                   "(group_id uint8_t, "
+                                   "chipcode int, "
                                    "time time, "
                                    "file char, "
                                    "device char, "
@@ -29,7 +30,10 @@ public:
     int countDistinctValuesWithCondition( QString column, QString condition);
     int countValuesWithCondition( QString column, QString statement );
     QList<QString> retrieveListOfUniqueText( QString column );
+    QList<QString> performListofDetections( QString condition, QString order_by );
+    QList<QString> getListofDistinctTextWithCondition( QString column, QString condition);
     QList<int> retrieveListOfUniqueNumbers( QString column );
+    QString retrieveValueFromQuery();
 
 private:
 };

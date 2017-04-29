@@ -14,6 +14,7 @@ private:
     int getAllTags();
     int getAllTagsForLocation( QString location );
     QStringList getDetectionRates();
+    QStringList retrieveTagsDetectionPath();
 };
 
 #endif // CALCULATIONS_H
