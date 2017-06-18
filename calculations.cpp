@@ -18,6 +18,7 @@ void calculations::performCalculations( QString save_location )
 
     data_file.WriteFile( save_location + "/detection_rates.csv", detection_rate_list);
     data_file.WriteFile( save_location + "/tags_detected_on_location.csv", detection_path_list);
+
     qDebug() << "Done Creating Files...";
 }
 
@@ -41,16 +42,12 @@ QStringList calculations::retrieveTagsDetectionPath()
                                                     "group_id, chipcode, location");
     list_size = data_list.size() / 3;
 
+
     while(list_size!=0)
     {
         if(group_id_prev==data_list[0+(3*data_indicator)] &&
            chipcode_prev==data_list[1+(3*data_indicator)]){
-            while(data_list[2+(3*data_indicator)]!=location_list[location_indicator]){
-                detection_string.append(";");
-                location_indicator++;
-            }
-            detection_string.append("x;");
-            location_indicator++;
+
         }
         else{
             detection_path_list.append(detection_string);
@@ -60,13 +57,13 @@ QStringList calculations::retrieveTagsDetectionPath()
                                     data_list[1+(3*data_indicator)] + ";");
             group_id_prev = data_list[0+(3*data_indicator)];
             chipcode_prev = data_list[1+(3*data_indicator)];
-            while(data_list[2+(3*data_indicator)]!=location_list[location_indicator]){
-                detection_string.append(";");
-                location_indicator++;
-            }
-            detection_string.append("x;");
+        }
+        while(data_list[2+(3*data_indicator)]!=location_list[location_indicator]){
+            detection_string.append(";");
             location_indicator++;
         }
+        detection_string.append("x;");
+        location_indicator++;
         data_indicator++;
         list_size--;
     }

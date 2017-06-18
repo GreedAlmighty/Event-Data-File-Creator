@@ -33,7 +33,6 @@ public:
     QList<QString> performListofDetections( QString condition, QString order_by );
     QList<QString> getListofDistinctTextWithCondition( QString column, QString condition);
     QList<int> retrieveListOfUniqueNumbers( QString column );
-    QString retrieveValueFromQuery();
 
 private:
 };

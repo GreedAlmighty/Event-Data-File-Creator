@@ -27,11 +27,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     filecommands.cpp \
     databasecommands.cpp \
-    calculations.cpp
+    calculations.cpp \
+    querycommands.cpp
 
 HEADERS  += mainwindow.h \
     filecommands.h \
     databasecommands.h \
-    calculations.h
+    calculations.h \
+    querycommands.h
 
 FORMS    += mainwindow.ui

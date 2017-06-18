@@ -17,15 +17,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
 
-    //TODO remove the Boolian used for process control.
-    //TODO Verify the selectedFileButton opens the selected file in windows explorer.
     //TODO When opening the file, show the progress in the openProgressBar.
-    //TODO Show the saveLocationLabel, locationTextBrowser, selectLocationButton, createDataFileButton and createProgressBar.
-    //TODO Open a windows explorer window when the createFileButton is clicked.
     //TODO show the selected location in the locationTextBrowser.
-    //TODO Create a datafile when the save location is selected.
     //TODO Show the creation progress in the createProgressBar.
     //TODO When the file is created, show a Finished message and the Button to open the file.
+    //TODO Remove/Delete temporary DB.
     //TODO When the Button is clicked, open the created Excel file.
 
     /*ADDITIONAL FEATURES
