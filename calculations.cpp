@@ -74,18 +74,24 @@ QStringList calculations::retrieveTagsDetectionPath()
 QStringList calculations::getDetectionRates()
 {
     QString detection_rate_str;
+    QString detection_number_str;
     QStringList detection_rate_list;
 
     double total_detection = getAllTags();
-    detection_rate_list.append("Location;Detection Rate");
+    detection_rate_list.append("Location;Number Detected;Detection Rate");
 
     foreach( QString str, location_list)
     {
         double detections_on_location = getAllTagsForLocation( str );
         double detection_rate_for_location = detections_on_location * 100 / total_detection;
         detection_rate_str = detection_rate_str.number( detection_rate_for_location, 'g', 5);
-        detection_rate_list.append(str + ";" + detection_rate_str + ";");
+        detection_number_str = detection_number_str.number(detections_on_location);
+        detection_rate_list.append(str + ";" + detection_number_str + ";" + detection_rate_str + ";");
     }
+
+    detection_number_str = detection_rate_str.number(total_detection);
+    detection_rate_list.append("Total;" + detection_number_str + ";100");
+
     return detection_rate_list;
 }
 
