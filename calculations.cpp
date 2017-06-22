@@ -10,6 +10,7 @@ QList<QString> location_list;
 void calculations::performCalculations( QString save_location )
 {
     FileCommands data_file;
+    DBCommands db_command;
 
     retrieveAllLocations();
 
@@ -20,6 +21,7 @@ void calculations::performCalculations( QString save_location )
     data_file.WriteFile( save_location + "/tags_detected_on_location.csv", detection_path_list);
 
     qDebug() << "Done Creating Files...";
+    db_command.deleteDatabase();
 }
 
 QStringList calculations::retrieveTagsDetectionPath()

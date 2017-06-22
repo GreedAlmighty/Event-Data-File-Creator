@@ -8,6 +8,7 @@ class FileCommands
 
 public:
     void ReadFile( QString FileName);
+    void DeleteFile( QString FileName );
     bool WriteFile( QString FileName, QStringList FileData);
 
 private:

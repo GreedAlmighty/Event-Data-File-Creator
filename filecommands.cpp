@@ -7,7 +7,7 @@
 #include "filecommands.h"
 #include "databasecommands.h"
 
-void FileCommands::ReadFile( QString FileName)
+void FileCommands::ReadFile( QString FileName )
 {
     QFile master_csv(FileName);
     DBCommands sql_db;
@@ -66,6 +66,15 @@ QString FileCommands::createGroupId( int chipcode_length, QString csv_line )
     csv_line.insert(2, ";");
 
     return csv_line;
+}
+
+void FileCommands::DeleteFile( QString FileName )
+{
+    QFile remove_file(FileName);
+
+    if(remove_file.remove()){
+        qDebug() << "Removed File: " + FileName;
+    }
 }
 
 bool FileCommands::WriteFile( QString FileName, QStringList FileData)

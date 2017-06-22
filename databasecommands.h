@@ -23,6 +23,7 @@ class DBCommands
 
 public:
     void createDatabase();
+    void deleteDatabase();
     void insertIntoDatabase( QString values );
     void endTransaction();
     int countAllValues();
