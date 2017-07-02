@@ -57,6 +57,7 @@ void DBCommands::insertIntoDatabase( QString values )
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
 }
 

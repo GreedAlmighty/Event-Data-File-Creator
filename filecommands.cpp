@@ -31,11 +31,21 @@ void FileCommands::ReadFile( QString FileName )
         }
         else{
             //import values into the created database
-            QStringList line_split = line.split(';');
-
+            QStringList line_split;
+            if(line.contains(";")){
+                line_split = line.split(';');
+                line.replace(";", "', '");
+            }
+            else if(line.contains(",")){
+                line_split = line.split(",");
+                line.replace(",", "', '");
+            }
+            else{
+                qDebug() << "Unknown Delimiter...";
+                return;
+            }
             size = line_split[0].size();
             line = "'" + createGroupId( size, line ) + "'";
-            line.replace(";", "', '");
             sql_db.insertIntoDatabase( line );
         }
     }
@@ -45,7 +55,10 @@ void FileCommands::ReadFile( QString FileName )
 
 QString FileCommands::createGroupId( int chipcode_length, QString csv_line )
 {
-    if(chipcode_length==6){
+    if (chipcode_length==7){
+        //do nothing
+    }
+    else if(chipcode_length==6){
         csv_line.insert(0, "0");
     }
     else if(chipcode_length==5){
@@ -63,8 +76,7 @@ QString FileCommands::createGroupId( int chipcode_length, QString csv_line )
     else {
         csv_line.insert(0,"000000");
     }
-    csv_line.insert(2, ";");
-
+    csv_line.insert(2, "', '");
     return csv_line;
 }
 
