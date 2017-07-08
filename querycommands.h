@@ -7,6 +7,7 @@ class QueryCommands
 {
 public:
     QueryCommands();
+    ~QueryCommands();
     void addInsertToQuery( QString table, QString values );
     void clearQueryString();
     void addDistinctToQuery( QString table, QString column );

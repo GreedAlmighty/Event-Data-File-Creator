@@ -5,6 +5,11 @@ QString query_string;
 
 QueryCommands::QueryCommands()
 {
+    query_string = "";
+}
+
+QueryCommands::~QueryCommands()
+{
 
 }
 

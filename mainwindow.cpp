@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //TODO show the selected location in the locationTextBrowser.
     //TODO Show the creation progress in the createProgressBar.
     //TODO When the file is created, show a Finished message and the Button to open the file.
-    //TODO Remove/Delete temporary DB.
+    //TODO Create close functions
     //TODO When the Button is clicked, open the created Excel file.
 
     /*ADDITIONAL FEATURES
@@ -31,6 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    calculations calc;
+    FileCommands file;
+
+    calc.~calculations();
+    file.~FileCommands();
+
     delete ui;
 }
 

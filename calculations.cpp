@@ -6,11 +6,11 @@
 #include <QDebug>
 
 QList<QString> location_list;
+DBCommands db_command;
 
 void calculations::performCalculations( QString save_location )
 {
     FileCommands data_file;
-    DBCommands db_command;
 
     retrieveAllLocations();
 
@@ -21,15 +21,23 @@ void calculations::performCalculations( QString save_location )
     data_file.WriteFile( save_location + "/tags_detected_on_location.csv", detection_path_list);
 
     qDebug() << "Done Creating Files...";
-    db_command.deleteDatabase();
+}
+
+calculations::calculations()
+{
+
+}
+
+calculations::~calculations()
+{
+    //db_command.deleteDatabase();
 }
 
 QStringList calculations::retrieveTagsDetectionPath()
 {
-    DBCommands db_command;
     QStringList data_list;
     QStringList detection_path_list;
-    QString detection_string = "GroupID:; Chipcode:; ";
+    QString detection_string = "GroupID:, Chipcode:, ";
     QString group_id_prev = "";
     QString chipcode_prev = "";
     int location_indicator = 0;
@@ -37,7 +45,7 @@ QStringList calculations::retrieveTagsDetectionPath()
     int list_size = 0;
 
     foreach (QString str, location_list) {
-        detection_string.append( str + "; ");
+        detection_string.append( str + ", ");
     }
 
     data_list = db_command.performListofDetections( "group_id, chipcode, location",
@@ -55,16 +63,16 @@ QStringList calculations::retrieveTagsDetectionPath()
             detection_path_list.append(detection_string);
             detection_string.clear();
             location_indicator=0;
-            detection_string.append(data_list[0+(3*data_indicator)] + ";" +
-                                    data_list[1+(3*data_indicator)] + ";");
+            detection_string.append(data_list[0+(3*data_indicator)] + "," +
+                                    data_list[1+(3*data_indicator)] + ",");
             group_id_prev = data_list[0+(3*data_indicator)];
             chipcode_prev = data_list[1+(3*data_indicator)];
         }
         while(data_list[2+(3*data_indicator)]!=location_list[location_indicator]){
-            detection_string.append(";");
+            detection_string.append(",");
             location_indicator++;
         }
-        detection_string.append("x;");
+        detection_string.append("x,");
         location_indicator++;
         data_indicator++;
         list_size--;
@@ -80,7 +88,7 @@ QStringList calculations::getDetectionRates()
     QStringList detection_rate_list;
 
     double total_detection = getAllTags();
-    detection_rate_list.append("Location;Number Detected;Detection Rate");
+    detection_rate_list.append("Location,Number Detected,Detection Rate");
 
     foreach( QString str, location_list)
     {
@@ -88,30 +96,27 @@ QStringList calculations::getDetectionRates()
         double detection_rate_for_location = detections_on_location * 100 / total_detection;
         detection_rate_str = detection_rate_str.number( detection_rate_for_location, 'g', 5);
         detection_number_str = detection_number_str.number(detections_on_location);
-        detection_rate_list.append(str + ";" + detection_number_str + ";" + detection_rate_str + ";");
+        detection_rate_list.append(str + "," + detection_number_str + "," + detection_rate_str + ",");
     }
 
     detection_number_str = detection_rate_str.number(total_detection);
-    detection_rate_list.append("Total;" + detection_number_str + ";100");
+    detection_rate_list.append("Total," + detection_number_str + ",100");
 
     return detection_rate_list;
 }
 
 void calculations::retrieveAllLocations()
 {
-    DBCommands db_command;
     location_list = db_command.retrieveListOfUniqueText("location");
 }
 
 int calculations::getAllTags()
 {
-    DBCommands db_command;
     return db_command.countAllDistinctValues("chipcode");
 }
 
 int calculations::getAllTagsForLocation( QString location )
 {
-    DBCommands db_command;
     return db_command.countDistinctValuesWithCondition( "chipcode", "location = '" + location + "'");
 }
 

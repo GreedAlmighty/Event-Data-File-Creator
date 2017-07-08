@@ -7,12 +7,12 @@ class FileCommands
 {
 
 public:
+    FileCommands();
+    ~FileCommands();
     void ReadFile( QString FileName);
     void DeleteFile( QString FileName );
     bool WriteFile( QString FileName, QStringList FileData);
 
-private:
-    QString createGroupId( int chipcode_length, QString csv_line );
 };
 
 #endif // FILECOMMANDS_H

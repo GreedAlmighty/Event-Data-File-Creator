@@ -22,6 +22,8 @@ class DBCommands
 {
 
 public:
+    DBCommands();
+    ~DBCommands();
     void createDatabase();
     void deleteDatabase();
     void insertIntoDatabase( QString values );

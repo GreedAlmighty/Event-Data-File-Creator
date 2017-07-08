@@ -8,6 +8,16 @@
 
 QSqlDatabase db;
 
+DBCommands::DBCommands()
+{
+
+}
+
+DBCommands::~DBCommands()
+{
+
+}
+
 void DBCommands::createDatabase()
 {
     QDir database_path;
@@ -41,7 +51,7 @@ void DBCommands::deleteDatabase()
         qDebug() << "database removed";
     }
     else{
-        qDebug() << database_path.currentPath()+"/tempdb.db";
+        qDebug() << "database not removed";
     }
 }
 

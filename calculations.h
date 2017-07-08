@@ -8,6 +8,8 @@ class calculations
 {
 public:
     void performCalculations( QString save_location );
+    calculations();
+    ~calculations();
 
 private:
     void retrieveAllLocations();
