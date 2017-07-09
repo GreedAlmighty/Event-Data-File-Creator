@@ -5,6 +5,9 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+calculations calc;
+FileCommands file;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,30 +15,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle( "Event Data File Analyzer " + SoftwareVersion);
 
+    ui->fileTextBrowser->setText("please select a file...");
+    ui->locationTextBrowser->setText("Please select a location...");
     ui->createFileButton->hide();
     ui->createProgressBar->hide();
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
 
     //TODO When opening the file, show the progress in the openProgressBar.
-    //TODO show the selected location in the locationTextBrowser.
     //TODO Show the creation progress in the createProgressBar.
     //TODO When the file is created, show a Finished message and the Button to open the file.
-    //TODO Create close functions
     //TODO When the Button is clicked, open the created Excel file.
 
     /*ADDITIONAL FEATURES
      * add a filter function to filter the loaded data
+     * Research how to create a XLS file using QT.
      */
 }
 
 MainWindow::~MainWindow()
 {
-    calculations calc;
-    FileCommands file;
-
-    calc.~calculations();
-    file.~FileCommands();
 
     delete ui;
 }
@@ -43,7 +42,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_selectFileButton_clicked()
 {
     QFileDialog selectFileDialog;
-    FileCommands master_csv;
 
     QString selectedFilePath = selectFileDialog.getOpenFileName(this,
                                                                 tr("Open MasterCSV"),
@@ -55,7 +53,7 @@ void MainWindow::on_selectFileButton_clicked()
         return;
     }
     ui->fileTextBrowser->setText(selectedFilePath);
-    master_csv.ReadFile( selectedFilePath );
+    file.ReadFile( selectedFilePath );
     ui->createFileButton->show();
     ui->createProgressBar->show();
     ui->locationTextBrowser->show();
@@ -64,11 +62,17 @@ void MainWindow::on_selectFileButton_clicked()
 
 void MainWindow::on_createFileButton_clicked()
 {
-    calculations calc;
     QFileDialog selectLocationDialog;
 
     QString selectedLocation = selectLocationDialog.getExistingDirectory(this,
                                                                          tr("Open Location"),
                                                                          "C:");
+    ui->locationTextBrowser->setText( selectedLocation );
     calc.performCalculations( selectedLocation );
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    calc.clearTempFiles();
+    event->accept();
 }

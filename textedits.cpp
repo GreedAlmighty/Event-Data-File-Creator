@@ -43,34 +43,35 @@ void TextEdit::editTextLine( QString line )
             return;
         }
         size = line_split[0].size();
-        line = "'" + createGroupId( size, line ) + "'";
+        createGroupId( size, &line );
+        line.append("'");
+        line.insert(0, "'");
         sql_db.insertIntoDatabase( line );
     }
 }
 
-QString TextEdit::createGroupId( int chipcode_length, QString csv_line )
+void TextEdit::createGroupId( int chipcode_length, QString *csv_line )
 {
     if (chipcode_length==7){
         //do nothing
     }
     else if(chipcode_length==6){
-        csv_line.insert(0, "0");
+        csv_line->insert(0, "0");
     }
     else if(chipcode_length==5){
-        csv_line.insert(0,"00");
+        csv_line->insert(0,"00");
     }
     else if(chipcode_length==4){
-        csv_line.insert(0,"000");
+        csv_line->insert(0,"000");
     }
     else if(chipcode_length==3){
-        csv_line.insert(0,"0000");
+        csv_line->insert(0,"0000");
     }
     else if(chipcode_length==2){
-        csv_line.insert(0,"00000");
+        csv_line->insert(0,"00000");
     }
     else {
-        csv_line.insert(0,"000000");
+        csv_line->insert(0,"000000");
     }
-    csv_line.insert(2, "', '");
-    return csv_line;
+    csv_line->insert(2, "', '");
 }

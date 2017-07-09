@@ -21,13 +21,13 @@ FileCommands::~FileCommands()
 
 void FileCommands::ReadFile( QString FileName )
 {
-    QFile master_csv(FileName);
+    QFile read_file(FileName);
 
-    if(!master_csv.open(QIODevice::ReadOnly | QIODevice::Text)){
+    if(!read_file.open(QIODevice::ReadOnly | QIODevice::Text)){
         return;
     }
 
-    QTextStream in(&master_csv);
+    QTextStream in(&read_file);
 
     while(!in.atEnd()){
         QString line = in.readLine();
@@ -63,5 +63,3 @@ bool FileCommands::WriteFile( QString FileName, QStringList FileData)
     write_file.close();
     return true;
 }
-
-//TODO Research how to create a XLS file using QT.

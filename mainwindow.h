@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 const QString SoftwareVersion = "0.1 BETA";
 
@@ -19,8 +20,8 @@ public:
 
 private slots:
     void on_selectFileButton_clicked();
-
     void on_createFileButton_clicked();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;

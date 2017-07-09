@@ -32,10 +32,10 @@ public:
     int countAllDistinctValues( QString column );
     int countDistinctValuesWithCondition( QString column, QString condition);
     int countValuesWithCondition( QString column, QString statement );
-    QList<QString> retrieveListOfUniqueText( QString column );
-    QList<QString> performListofDetections( QString condition, QString order_by );
-    QList<QString> getListofDistinctTextWithCondition( QString column, QString condition);
-    QList<int> retrieveListOfUniqueNumbers( QString column );
+    QList<QString> *retrieveListOfUniqueText( QString column );
+    QList<QString> *performListofDetections( QString condition, QString order_by );
+    QList<QString> *getListofDistinctTextWithCondition( QString column, QString condition);
+    QList<int> *retrieveListOfUniqueNumbers( QString column );
 
 private:
 };

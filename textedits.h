@@ -14,7 +14,7 @@ public:
     void editTextLine( QString line );
 
 private:
-    QString createGroupId( int chipcode_length, QString csv_line );
+    void createGroupId(int chipcode_length, QString *csv_line );
 };
 
 #endif // TEXTEDITS_H

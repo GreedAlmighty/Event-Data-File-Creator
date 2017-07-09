@@ -8,6 +8,7 @@ class calculations
 {
 public:
     void performCalculations( QString save_location );
+    void clearTempFiles();
     calculations();
     ~calculations();
 
@@ -15,8 +16,8 @@ private:
     void retrieveAllLocations();
     int getAllTags();
     int getAllTagsForLocation( QString location );
-    QStringList getDetectionRates();
-    QStringList retrieveTagsDetectionPath();
+    QList<QString> *getDetectionRates();
+    QList<QString> *retrieveTagsDetectionPath();
 };
 
 #endif // CALCULATIONS_H

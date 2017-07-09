@@ -7,6 +7,7 @@
 #include "querycommands.h"
 
 QSqlDatabase db;
+QueryCommands qry_cmd;
 
 DBCommands::DBCommands()
 {
@@ -21,7 +22,6 @@ DBCommands::~DBCommands()
 void DBCommands::createDatabase()
 {
     QDir database_path;
-    QueryCommands qry_cmd;
     QString path = database_path.currentPath()+"/tempdb.db";
 
     qDebug() << path;
@@ -58,7 +58,6 @@ void DBCommands::deleteDatabase()
 void DBCommands::insertIntoDatabase( QString values )
 {
     QSqlQuery query(db);
-    QueryCommands qry_cmd;
 
     qry_cmd.addInsertToQuery("mastercsv", values);
 
@@ -74,7 +73,7 @@ void DBCommands::insertIntoDatabase( QString values )
 void DBCommands::endTransaction()
 {
     QSqlQuery query(db);
-    QueryCommands qry_cmd;
+
     QString qry = "END TRANSACTION";
     qry_cmd.clearQueryString();
 
@@ -83,11 +82,10 @@ void DBCommands::endTransaction()
     }
 }
 
-QList<QString> DBCommands::retrieveListOfUniqueText( QString column )
+QList<QString> *DBCommands::retrieveListOfUniqueText( QString column )
 {
-    QStringList str_list;
-    QueryCommands qry_cmd;
-
+    QStringList *str_list;
+    str_list = new QStringList;
     QSqlQuery query(db);
 
     qry_cmd.addDistinctToQuery( "mastercsv", column );
@@ -101,16 +99,15 @@ QList<QString> DBCommands::retrieveListOfUniqueText( QString column )
     }
     while(query.next()){
         QString value = query.value(0).toString();
-        str_list.append(value);
+        str_list->append(value);
     }
     return str_list;
 }
 
-QList<QString> DBCommands::performListofDetections( QString column, QString order_by )
+QList<QString> *DBCommands::performListofDetections( QString column, QString order_by )
 {
-    QueryCommands qry_cmd;
-    QStringList str_data_list;
-
+    QStringList *str_data_list;
+    str_data_list = new QStringList;
     QSqlQuery query(db);
 
     qry_cmd.addDistinctToQuery( "mastercsv", column);
@@ -123,18 +120,17 @@ QList<QString> DBCommands::performListofDetections( QString column, QString orde
         qDebug() << "error with query :" + query.lastError().text();
     }
     while(query.next()){
-        str_data_list.append( query.value(0).toString() );
-        str_data_list.append( query.value(1).toString() );
-        str_data_list.append( query.value(2).toString() );
+        str_data_list->append( query.value(0).toString() );
+        str_data_list->append( query.value(1).toString() );
+        str_data_list->append( query.value(2).toString() );
     }
     return str_data_list;
 }
 
-QList<QString> DBCommands::getListofDistinctTextWithCondition( QString column, QString condition)
+QList<QString> *DBCommands::getListofDistinctTextWithCondition( QString column, QString condition)
 {
-    QueryCommands qry_cmd;
-    QStringList str_list;
-
+    QStringList *str_list;
+    str_list = new QStringList;
     QSqlQuery query(db);
 
     qry_cmd.addDistinctToQuery("mastercsv", column);
@@ -147,20 +143,19 @@ QList<QString> DBCommands::getListofDistinctTextWithCondition( QString column, Q
         qDebug() << "error with query :" + query.lastError().text();
     }
     while (query.next()) {
-        str_list.append( query.value(0).toString() );
+        str_list->append( query.value(0).toString() );
     }
     return str_list;
 }
 
-QList<int> DBCommands::retrieveListOfUniqueNumbers( QString column )
+QList<int> *DBCommands::retrieveListOfUniqueNumbers( QString column )
 {
-    QList<int> int_list;
-    QueryCommands qry_cmd;
-
+    QList<int> *int_list;
     QSqlQuery query(db);
 
-    qry_cmd.addDistinctToQuery( "mastercsv", column );
+    int_list = new QList<int>;
 
+    qry_cmd.addDistinctToQuery( "mastercsv", column );
     QString qry = qry_cmd.getQueryString();
     qry_cmd.clearQueryString();
 
@@ -169,15 +164,13 @@ QList<int> DBCommands::retrieveListOfUniqueNumbers( QString column )
     }
     while(query.next()){
         int value = query.value(0).toInt();
-        int_list.append(value);
+        int_list->append(value);
     }
     return int_list;
 }
 
 int DBCommands::countDistinctValuesWithCondition( QString column, QString condition)
 {
-    QueryCommands qry_cmd;
-
     QSqlQuery query(db);
 
     qry_cmd.addDistinctToQuery("mastercsv", column);
@@ -197,8 +190,6 @@ int DBCommands::countDistinctValuesWithCondition( QString column, QString condit
 
 int DBCommands::countValuesWithCondition( QString column, QString condition )
 {
-    QueryCommands qry_cmd;
-
     QSqlQuery query(db);
 
     qry_cmd.addSelectToQuery( "mastercsv", column );
@@ -218,8 +209,6 @@ int DBCommands::countValuesWithCondition( QString column, QString condition )
 
 int DBCommands::countAllDistinctValues( QString column )
 {
-    QueryCommands qry_cmd;
-
     QSqlQuery query(db);
 
     qry_cmd.addDistinctToQuery( "mastercsv", column);
@@ -237,8 +226,6 @@ int DBCommands::countAllDistinctValues( QString column )
 }
 
 int DBCommands::countAllValues(){
-    QueryCommands qry_cmd;
-
     QSqlQuery query(db);
 
     qry_cmd.addSelectToQuery( "mastercsv", "*");
