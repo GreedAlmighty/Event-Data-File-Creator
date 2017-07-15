@@ -6,9 +6,6 @@
 #include "databasecommands.h"
 #include "querycommands.h"
 
-QSqlDatabase db;
-QueryCommands qry_cmd;
-
 DBCommands::DBCommands()
 {
 

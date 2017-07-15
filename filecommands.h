@@ -2,6 +2,7 @@
 #define FILECOMMANDS_H
 
 #include <QString>
+#include "textedits.h"
 
 class FileCommands
 {
@@ -13,6 +14,8 @@ public:
     void DeleteFile( QString FileName );
     bool WriteFile( QString FileName, QStringList FileData);
 
+private:
+    TextEdit text_edit;
 };
 
 #endif // FILECOMMANDS_H

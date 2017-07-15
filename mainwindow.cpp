@@ -5,9 +5,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-calculations calc;
-FileCommands file;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -35,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-
     delete ui;
 }
 
@@ -54,6 +50,8 @@ void MainWindow::on_selectFileButton_clicked()
     }
     ui->fileTextBrowser->setText(selectedFilePath);
     file.ReadFile( selectedFilePath );
+
+
     ui->createFileButton->show();
     ui->createProgressBar->show();
     ui->locationTextBrowser->show();

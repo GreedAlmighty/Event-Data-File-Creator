@@ -1,8 +1,6 @@
 #include "querycommands.h"
 #include <QString>
 
-QString query_string;
-
 QueryCommands::QueryCommands()
 {
     query_string = "";

@@ -5,9 +5,6 @@
 #include <QString>
 #include <QDebug>
 
-QList<QString> location_list;
-DBCommands db_command;
-
 void calculations::clearTempFiles()
 {
     db_command.deleteDatabase();

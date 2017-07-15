@@ -4,9 +4,6 @@
 #include "textedits.h"
 #include "databasecommands.h"
 
-DBCommands sql_db;
-int headers;
-
 TextEdit::~TextEdit()
 {
 

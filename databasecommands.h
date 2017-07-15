@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QList>
+#include <QSqlDatabase>
+#include "querycommands.h"
 
 const QString create_table_query = "create table mastercsv "
                                    "(group_id uint8_t, "
@@ -38,6 +40,8 @@ public:
     QList<int> *retrieveListOfUniqueNumbers( QString column );
 
 private:
+    QSqlDatabase db;
+    QueryCommands qry_cmd;
 };
 
 

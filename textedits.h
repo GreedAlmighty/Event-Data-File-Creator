@@ -2,6 +2,7 @@
 #define TEXTEDITS_H
 
 #include <QString>
+#include "databasecommands.h"
 
 #define HEADERS 1
 #define NO_HEADERS 0
@@ -15,6 +16,8 @@ public:
 
 private:
     void createGroupId(int chipcode_length, QString *csv_line );
+    DBCommands sql_db;
+    int headers;
 };
 
 #endif // TEXTEDITS_H
