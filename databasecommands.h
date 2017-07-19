@@ -6,8 +6,8 @@
 #include <QSqlDatabase>
 #include "querycommands.h"
 
-const QString create_table_query = "create table mastercsv "
-                                   "(group_id uint8_t, "
+const QString master_csv_table = "master_csv";
+const QString master_csv_columns = "group_id uint8_t, "
                                    "chipcode int, "
                                    "time time, "
                                    "file char, "
@@ -18,7 +18,7 @@ const QString create_table_query = "create table mastercsv "
                                    "opt2 int, "
                                    "opt3 int, "
                                    "opt4 int, "
-                                   "opt5 int)";
+                                   "opt5 int";
 
 class DBCommands
 {
@@ -26,22 +26,20 @@ class DBCommands
 public:
     DBCommands();
     ~DBCommands();
+    void beginTransaction();
+    void createTable( QString table_name, QString table_columns);
     void createDatabase();
     void deleteDatabase();
-    void insertIntoDatabase( QString values );
+    void insertIntoDatabase(  QString table, QString values );
     void endTransaction();
-    int countAllValues();
-    int countAllDistinctValues( QString column );
-    int countDistinctValuesWithCondition( QString column, QString condition);
-    int countValuesWithCondition( QString column, QString statement );
-    QList<QString> *retrieveListOfUniqueText( QString column );
-    QList<QString> *performListofDetections( QString condition, QString order_by );
-    QList<QString> *getListofDistinctTextWithCondition( QString column, QString condition);
-    QList<int> *retrieveListOfUniqueNumbers( QString column );
-
-private:
-    QSqlDatabase db;
-    QueryCommands qry_cmd;
+    int countAllValues(QString table);
+    int countAllDistinctValues( QString table, QString column );
+    int countDistinctValuesWithCondition( QString table, QString column, QString condition);
+    int countValuesWithCondition( QString table, QString column, QString statement );
+    QList<QString> *retrieveListOfUniqueText( QString table, QString column );
+    QList<QString> *performListofDetections( QString table, QString condition, QString order_by );
+    QList<QString> *getListofDistinctTextWithCondition( QString table, QString column, QString condition);
+    QList<int> *retrieveListOfUniqueNumbers( QString table, QString column );
 };
 
 

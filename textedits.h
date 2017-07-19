@@ -16,7 +16,6 @@ public:
 
 private:
     void createGroupId(int chipcode_length, QString *csv_line );
-    DBCommands sql_db;
     int headers;
 };
 

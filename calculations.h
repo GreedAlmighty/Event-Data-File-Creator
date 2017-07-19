@@ -14,9 +14,6 @@ public:
     ~calculations();
 
 private:
-
-    QList<QString> location_list;
-    DBCommands db_command;
     void retrieveAllLocations();
     int getAllTags();
     int getAllTagsForLocation( QString location );

@@ -7,6 +7,8 @@
 #include "filecommands.h"
 #include "textedits.h"
 
+TextEdit text_edit;
+
 FileCommands::FileCommands()
 {
 

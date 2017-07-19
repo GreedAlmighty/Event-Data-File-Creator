@@ -5,6 +5,9 @@
 #include <QString>
 #include <QDebug>
 
+QList<QString> location_list;
+DBCommands db_command;
+
 void calculations::clearTempFiles()
 {
     db_command.deleteDatabase();
@@ -52,7 +55,8 @@ QList<QString> *calculations::retrieveTagsDetectionPath()
         detection_string.append( str + ", ");
     }
 
-    data_list = db_command.performListofDetections( "group_id, chipcode, location",
+    data_list = db_command.performListofDetections( master_csv_table,
+                                                    "group_id, chipcode, location",
                                                     "group_id, chipcode, location");
     list_size = data_list->size() / 3;
 
@@ -112,15 +116,15 @@ QList<QString> *calculations::getDetectionRates()
 
 void calculations::retrieveAllLocations()
 {
-    location_list = (*db_command.retrieveListOfUniqueText("location"));
+    location_list = (*db_command.retrieveListOfUniqueText(master_csv_table, "location"));
 }
 
 int calculations::getAllTags()
 {
-    return db_command.countAllDistinctValues("chipcode");
+    return db_command.countAllDistinctValues(master_csv_table, "chipcode");
 }
 
 int calculations::getAllTagsForLocation( QString location )
 {
-    return db_command.countDistinctValuesWithCondition( "chipcode", "location = '" + location + "'");
+    return db_command.countDistinctValuesWithCondition( master_csv_table, "chipcode", "location = '" + location + "'");
 }

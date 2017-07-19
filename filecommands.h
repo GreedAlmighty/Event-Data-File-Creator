@@ -15,7 +15,6 @@ public:
     bool WriteFile( QString FileName, QStringList FileData);
 
 private:
-    TextEdit text_edit;
 };
 
 #endif // FILECOMMANDS_H

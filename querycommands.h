@@ -18,7 +18,6 @@ public:
     QString getQueryString();
 
 private:
-    QString query_string;
 };
 
 #endif // QUERYCOMMANDS_H

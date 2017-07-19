@@ -1,8 +1,9 @@
 #include <QString>
 #include <QDebug>
-
 #include "textedits.h"
 #include "databasecommands.h"
+
+DBCommands sql_db;
 
 TextEdit::~TextEdit()
 {
@@ -22,6 +23,8 @@ void TextEdit::editTextLine( QString line )
         //First row wont be imported.
         //DB is created with standard headers of master csv file
         sql_db.createDatabase();
+        sql_db.createTable( master_csv_table, master_csv_columns );
+        sql_db.beginTransaction();
         headers = NO_HEADERS;
     }
     else{
@@ -43,7 +46,7 @@ void TextEdit::editTextLine( QString line )
         createGroupId( size, &line );
         line.append("'");
         line.insert(0, "'");
-        sql_db.insertIntoDatabase( line );
+        sql_db.insertIntoDatabase( master_csv_table, line );
     }
 }
 
