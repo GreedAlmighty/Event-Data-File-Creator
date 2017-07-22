@@ -28,8 +28,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    calculations calc;
-    FileCommands file;
 };
 
 #endif // MAINWINDOW_H

@@ -7,20 +7,30 @@
 
 QList<QString> location_list;
 DBCommands db_command;
+QString save_location;
+
+void calculations::connectCalc(QThread &thread)
+{
+    connect(&thread, SIGNAL(started()),this,SLOT(performCalculations()));
+}
 
 void calculations::clearTempFiles()
 {
     db_command.deleteDatabase();
 }
 
-void calculations::performCalculations( QString save_location )
+void calculations::performCalculations()
 {
     FileCommands data_file;
+
+    qDebug() << "Start receiving data";
 
     retrieveAllLocations();
 
     QList<QString> *detection_rate_list = getDetectionRates();
     QList<QString> *detection_path_list = retrieveTagsDetectionPath();
+
+    qDebug() << "Data received, writing files";
 
     data_file.WriteFile( save_location + "/detection_rates.csv", (*detection_rate_list));
     data_file.WriteFile( save_location + "/tags_detected_on_location.csv", (*detection_path_list));
@@ -36,6 +46,11 @@ calculations::calculations()
 calculations::~calculations()
 {
 
+}
+
+void calculations::setSaveLocation( QString selected_save_location)
+{
+    save_location = selected_save_location;
 }
 
 QList<QString> *calculations::retrieveTagsDetectionPath()

@@ -8,6 +8,7 @@
 #include "textedits.h"
 
 TextEdit text_edit;
+QString file_name;
 
 FileCommands::FileCommands()
 {
@@ -19,9 +20,19 @@ FileCommands::~FileCommands()
     text_edit.~TextEdit();
 }
 
-void FileCommands::ReadFile( QString FileName )
+void FileCommands::connectFile( QThread &thread)
 {
-    QFile read_file(FileName);
+    connect(&thread, SIGNAL(started()), this, SLOT(ReadFile()));
+}
+
+void FileCommands::setImportFile( QString selected_file )
+{
+    file_name = selected_file;
+}
+
+void FileCommands::ReadFile()
+{
+    QFile read_file(file_name);
 
     if(!read_file.open(QIODevice::ReadOnly | QIODevice::Text)){
         return;

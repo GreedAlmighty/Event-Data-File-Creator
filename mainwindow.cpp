@@ -1,9 +1,17 @@
+#include <QMessageBox>
+#include <QThread>
+#include <QFileDialog>
+#include <QMainWindow>
+#include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "filecommands.h"
 #include "calculations.h"
-#include <QMessageBox>
-#include <QFileDialog>
+
+QThread calc_thread;
+QThread file_import_thread;
+FileCommands file;
+calculations calc;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +26,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->createProgressBar->hide();
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
+
+    calc.connectCalc(calc_thread);
+    calc.moveToThread(&calc_thread);
+    file.connectFile(file_import_thread);
+    file.moveToThread(&file_import_thread);
+
 
     //TODO When opening the file, show the progress in the openProgressBar.
     //TODO Show the creation progress in the createProgressBar.
@@ -38,7 +52,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_selectFileButton_clicked()
 {
     QFileDialog selectFileDialog;
-
+    
     QString selectedFilePath = selectFileDialog.getOpenFileName(this,
                                                                 tr("Open MasterCSV"),
                                                                 "C:",
@@ -49,8 +63,10 @@ void MainWindow::on_selectFileButton_clicked()
         return;
     }
     ui->fileTextBrowser->setText(selectedFilePath);
-    file.ReadFile( selectedFilePath );
+    file.setImportFile( selectedFilePath );
+    qDebug() << "Imported File: " + selectedFilePath;
 
+    file_import_thread.start();
 
     ui->createFileButton->show();
     ui->createProgressBar->show();
@@ -66,11 +82,15 @@ void MainWindow::on_createFileButton_clicked()
                                                                          tr("Open Location"),
                                                                          "C:");
     ui->locationTextBrowser->setText( selectedLocation );
-    calc.performCalculations( selectedLocation );
+    calc.setSaveLocation( selectedLocation );
+    qDebug() << "Save Location: " + selectedLocation;
+    calc_thread.start();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     calc.clearTempFiles();
+    calc_thread.terminate();
+    file_import_thread.terminate();
     event->accept();
 }

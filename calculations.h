@@ -3,15 +3,23 @@
 
 #include <QString>
 #include <QStringList>
+#include <QObject>
+#include <QThread>
 #include "databasecommands.h"
 
-class calculations
+class calculations : public QObject
 {
+    Q_OBJECT
+
 public:
-    void performCalculations( QString save_location );
+    void setSaveLocation( QString selected_save_location);
     void clearTempFiles();
+    void connectCalc(QThread &thread);
     calculations();
     ~calculations();
+
+public slots:
+    void performCalculations();
 
 private:
     void retrieveAllLocations();
@@ -19,6 +27,7 @@ private:
     int getAllTagsForLocation( QString location );
     QList<QString> *getDetectionRates();
     QList<QString> *retrieveTagsDetectionPath();
+
 };
 
 #endif // CALCULATIONS_H
