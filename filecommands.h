@@ -4,7 +4,6 @@
 #include <QString>
 #include <QThread>
 #include <QObject>
-#include "textedits.h"
 
 class FileCommands : public QObject
 {
@@ -18,10 +17,13 @@ public:
     void DeleteFile( QString FileName );
     bool WriteFile( QString FileName, QStringList FileData);
 
+signals:
+    void finishedImporting(int);
+    void currentImportPos(int);
+    void totalFileSize(int);
+
 public slots:
     void ReadFile();
-
-private:
 };
 
 #endif // FILECOMMANDS_H

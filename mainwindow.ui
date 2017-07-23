@@ -152,6 +152,9 @@ p, li { white-space: pre-wrap; }
         <height>31</height>
        </size>
       </property>
+      <property name="maximum">
+       <number>0</number>
+      </property>
       <property name="value">
        <number>0</number>
       </property>

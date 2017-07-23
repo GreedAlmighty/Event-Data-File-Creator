@@ -6,7 +6,7 @@
 #include "calculations.h"
 #include "filecommands.h"
 
-const QString SoftwareVersion = "0.1 BETA";
+const QString SoftwareVersion = "0.5 BETA";
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +19,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+    void show_createMenuItems(int);
+    void on_totalFileSizeReceived(int);
+    void on_updateProgressBar(int);
+
+signals:
+    void update_progressBarRange(int,int);
 
 private slots:
     void on_selectFileButton_clicked();

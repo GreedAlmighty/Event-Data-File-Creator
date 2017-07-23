@@ -2,8 +2,9 @@
 #include <QString>
 #include <QTextStream>
 #include <QStringList>
-#include <QMessageBox>
 #include <QDebug>
+#include <QTimer>
+#include "mainwindow.h"
 #include "filecommands.h"
 #include "textedits.h"
 
@@ -38,13 +39,26 @@ void FileCommands::ReadFile()
         return;
     }
 
-    QTextStream in(&read_file);
+    emit totalFileSize(read_file.size());
 
+    int i = 0;
+    QTextStream in(&read_file);
     while(!in.atEnd()){
         QString line = in.readLine();
         text_edit.editTextLine( line );
+        if(i==50000)
+        {
+            emit currentImportPos(read_file.pos());
+            i = 0;
+        }
+        else{
+            i++;
+        }
     }
-    qDebug() << "Done importing file...";
+
+    qDebug() << "Done importing file!";
+
+    emit finishedImporting(read_file.size());
 }
 
 void FileCommands::DeleteFile( QString FileName )

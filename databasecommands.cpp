@@ -43,8 +43,6 @@ void DBCommands::createDatabase()
     QDir database_path;
     QString path = database_path.currentPath()+"/tempdb.db";
 
-    qDebug() << path;
-
     db = QSqlDatabase::addDatabase( "QSQLITE" );
     db.setDatabaseName(path);
     if(!db.open()){

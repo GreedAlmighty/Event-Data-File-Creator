@@ -12,6 +12,7 @@ QThread calc_thread;
 QThread file_import_thread;
 FileCommands file;
 calculations calc;
+int import_file_size;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,11 +28,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
 
+    connect(this, SIGNAL(update_progressBarRange(int,int)),
+            ui->openProgressBar, SLOT(setRange(int,int)));
+
     calc.connectCalc(calc_thread);
     calc.moveToThread(&calc_thread);
     file.connectFile(file_import_thread);
     file.moveToThread(&file_import_thread);
 
+    connect(&file, SIGNAL(finishedImporting(int)),
+            this, SLOT(show_createMenuItems(int)));
+    connect(&file, SIGNAL(totalFileSize(int)),
+            this, SLOT(on_totalFileSizeReceived(int)));
+    connect(&file, SIGNAL(currentImportPos(int)),
+            this, SLOT(on_updateProgressBar(int)));
 
     //TODO When opening the file, show the progress in the openProgressBar.
     //TODO Show the creation progress in the createProgressBar.
@@ -49,6 +59,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_totalFileSizeReceived(int size)
+{
+    emit update_progressBarRange(0,size);
+}
+
+void MainWindow::on_updateProgressBar(int pos)
+{
+    ui->openProgressBar->setValue(pos);
+}
+
 void MainWindow::on_selectFileButton_clicked()
 {
     QFileDialog selectFileDialog;
@@ -64,10 +84,14 @@ void MainWindow::on_selectFileButton_clicked()
     }
     ui->fileTextBrowser->setText(selectedFilePath);
     file.setImportFile( selectedFilePath );
-    qDebug() << "Imported File: " + selectedFilePath;
+    qDebug() << "Importing File: " + selectedFilePath;
 
     file_import_thread.start();
+}
 
+void MainWindow::show_createMenuItems(int value)
+{
+    ui->openProgressBar->setValue(value);
     ui->createFileButton->show();
     ui->createProgressBar->show();
     ui->locationTextBrowser->show();
