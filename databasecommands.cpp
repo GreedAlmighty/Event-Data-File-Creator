@@ -28,13 +28,14 @@ void DBCommands::beginTransaction(){
 
 void DBCommands::createTable( QString table_name, QString table_columns)
 {
-    QString query_str = "create table " + table_name +
+    QString qry = "create table " + table_name +
                         " (" + table_columns + ");";
 
     QSqlQuery query(db);
 
-    if(!query.exec(query_str)){
+    if(!query.exec(qry)){
         qDebug() << query.lastError().text();
+        qDebug() << qry;
     }
 }
 
@@ -88,6 +89,7 @@ void DBCommands::endTransaction()
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
 }
 
@@ -105,6 +107,7 @@ QList<QString> *DBCommands::retrieveListOfUniqueText( QString table, QString col
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     while(query.next()){
         QString value = query.value(0).toString();
@@ -127,6 +130,7 @@ QList<QString> *DBCommands::performListofDetections( QString table, QString colu
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     while(query.next()){
         str_data_list->append( query.value(0).toString() );
@@ -150,6 +154,7 @@ QList<QString> *DBCommands::getListofDistinctTextWithCondition( QString table, Q
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     while (query.next()) {
         str_list->append( query.value(0).toString() );
@@ -170,6 +175,7 @@ QList<int> *DBCommands::retrieveListOfUniqueNumbers( QString table, QString colu
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     while(query.next()){
         int value = query.value(0).toInt();
@@ -188,8 +194,11 @@ int DBCommands::countDistinctValuesWithCondition( QString table, QString column,
     QString qry = qry_cmd.getQueryString();
     qry_cmd.clearQueryString();
 
+    qDebug() << qry;
+
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     if(query.last()){
         return query.at() + 1;
@@ -209,6 +218,7 @@ int DBCommands::countValuesWithCondition( QString table, QString column, QString
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     if(query.last()){
         return query.at() + 1;
@@ -227,6 +237,7 @@ int DBCommands::countAllDistinctValues( QString table, QString column )
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     if(query.last()){
         return query.at() + 1;
@@ -244,6 +255,7 @@ int DBCommands::countAllValues(QString table){
 
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
+        qDebug() << qry;
     }
     if(query.last()){
         return query.at() + 1;

@@ -20,6 +20,8 @@ const QString master_csv_columns = "group_id uint8_t, "
                                    "opt4 int, "
                                    "opt5 int";
 
+const QString path_table = "path_list";
+
 class DBCommands
 {
 

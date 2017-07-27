@@ -23,11 +23,12 @@ public slots:
 
 private:
     void retrieveAllLocations();
+    void createPathTable( QStringList lines );
     int getAllTags();
     int getAllTagsForLocation( QString location );
     QList<QString> *getDetectionRates();
     QList<QString> *retrieveTagsDetectionPath();
-
+    QList<QString> *calcLocationSpecifics();
 };
 
 #endif // CALCULATIONS_H

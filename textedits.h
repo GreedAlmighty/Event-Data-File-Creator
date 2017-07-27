@@ -13,6 +13,7 @@ public:
     TextEdit();
     ~TextEdit();
     void editTextLine( QString line );
+    void setHeader( bool heading );
 
 private:
     void createGroupId(int chipcode_length, QString *csv_line );

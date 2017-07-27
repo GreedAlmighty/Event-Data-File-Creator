@@ -40,20 +40,18 @@ void FileCommands::ReadFile()
     }
 
     emit totalFileSize(read_file.size());
-
     int i = 0;
+
     QTextStream in(&read_file);
     while(!in.atEnd()){
         QString line = in.readLine();
         text_edit.editTextLine( line );
-        if(i==50000)
+        if(i==20000)
         {
             emit currentImportPos(read_file.pos());
             i = 0;
         }
-        else{
-            i++;
-        }
+        i++;
     }
 
     qDebug() << "Done importing file!";

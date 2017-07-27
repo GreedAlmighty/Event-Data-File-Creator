@@ -43,13 +43,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&file, SIGNAL(currentImportPos(int)),
             this, SLOT(on_updateProgressBar(int)));
 
-    //TODO When opening the file, show the progress in the openProgressBar.
     //TODO Show the creation progress in the createProgressBar.
+        //Create a function that writes the whole list
+        //In that function, use somekind of delimiter to define
+        //A file starting and ending.
     //TODO When the file is created, show a Finished message and the Button to open the file.
     //TODO When the Button is clicked, open the created Excel file.
 
     /*ADDITIONAL FEATURES
-     * add a filter function to filter the loaded data
+     * Add a filter function to filter the loaded data
+     * Create a method to define DNF
+     * Add a function to add the number of detected locations to the file
      * Research how to create a XLS file using QT.
      */
 }
