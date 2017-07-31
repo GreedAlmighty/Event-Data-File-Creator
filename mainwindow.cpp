@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(on_updateProgressBar(int)));
 
     //Check Pamela's error stuff
+    //Clean up code
 
     /*ADDITIONAL FEATURES
      * Add a filter function to filter the loaded data
@@ -57,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
      * Add a function to add the number of detected locations to the file
      * Research how to create a XLS file using QT.
      * Add a file that analyses the devices on every location.
+     * Add a function to define the course. (same location used multiple times)
      */
 }
 

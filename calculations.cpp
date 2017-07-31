@@ -73,11 +73,12 @@ void calculations::createPathTable(QStringList lines)
         if(first_line){
             first_line = false;
             str.replace(" ", "_");
+            str.replace("-", "_");
             str.replace("(", "");
             str.replace(")", "");
             str.replace(",_", " char DEFAULT NULL, ");
             column_headers = str;
-            column_headers.resize( column_headers.size()-2);
+            column_headers.resize( column_headers.size()-3);
             db_command.createTable(path_table, column_headers);
             db_command.beginTransaction();
         }
@@ -103,13 +104,14 @@ QList<QString> *calculations::calcLocationSpecifics()
     data_list->append( "Location,Number of Tags that only missed specified location," );
 
     foreach (calc_location, location_list) {
-        calc_location = calc_location.replace(" ", "_");
         calc_location.replace(" ", "_");
+        calc_location.replace("-", "_");
         calc_location.replace("(", "");
         calc_location.replace(")", "");
         condition_query = calc_location + "=\"\"";
         foreach(qry, location_list){
             qry.replace(" ", "_");
+            qry.replace("-", "_");
             qry.replace("(", "");
             qry.replace(")", "");
             if(qry!=calc_location){
@@ -131,14 +133,18 @@ QList<QString> *calculations::retrieveTagsDetectionPath()
     QString detection_string = "GroupID, Chipcode, ";
     QString group_id_prev = "";
     QString chipcode_prev = "";
+    QString detected_numbers = "";
     int location_indicator = 0;
     int data_indicator = 0;
     int list_size = 0;
     int location_compensator = 0;
+    int detections = 0;
 
     foreach (QString str, location_list) {
         detection_string.append( str + ", ");
     }
+
+    detection_string.append("Times Detected,");
 
     data_list = db_command.performListofDetections( master_csv_table,
                                                     "group_id, chipcode, location",
@@ -156,7 +162,10 @@ QList<QString> *calculations::retrieveTagsDetectionPath()
                 detection_string.append(",");
                 location_compensator--;
             }
+            detected_numbers = detected_numbers.number(detections);
+            detection_string.append( detected_numbers + ",");
             location_indicator=0;
+            detections=0;
             location_compensator = location_list.size();
             detection_path_list->append(detection_string);
             detection_string.clear();
@@ -171,6 +180,7 @@ QList<QString> *calculations::retrieveTagsDetectionPath()
             location_compensator--;
         }
         detection_string.append("x,");
+        detections++;
         location_indicator++;
         location_compensator--;
         data_indicator++;
