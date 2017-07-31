@@ -78,11 +78,8 @@ bool FileCommands::WriteFile( QString FileName, QStringList FileData)
 
     QTextStream out(&write_file);
 
-    qDebug() << FileData.size();
-
     foreach (QString str, FileData) {
         out << str << endl;
-        //emit outputWrittenSize( str.size() );
     }
     write_file.flush();
     write_file.close();

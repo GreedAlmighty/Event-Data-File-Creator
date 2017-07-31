@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QDesktopServices>
 #include <QThread>
 #include <QFileDialog>
 #include <QMainWindow>
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fileTextBrowser->setText("please select a file...");
     ui->locationTextBrowser->setText("Please select a location...");
     ui->createFileButton->hide();
-    ui->createProgressBar->hide();
+    ui->processLabel->hide();
     ui->locationTextBrowser->hide();
     ui->saveLocationLabel->hide();
 
@@ -32,6 +33,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     calc.connectCalc(calc_thread);
     calc.moveToThread(&calc_thread);
+
+    connect(&calc, SIGNAL(nowProcessing(QString)),
+            this, SLOT(update_processingLabel(QString)));
+    connect(&calc, SIGNAL(finishedCalculating()),
+             this, SLOT(finishCreatingFilesDialog()));
+
     file.connectFile(file_import_thread);
     file.moveToThread(&file_import_thread);
 
@@ -42,22 +49,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&file, SIGNAL(currentImportPos(int)),
             this, SLOT(on_updateProgressBar(int)));
 
-    //TODO Show the creation progress in the createProgressBar.
-        //Create a function that writes the whole list
-        //In that function, use somekind of delimiter to define
-        //A file starting and ending.
-    //TODO Rewrite read/write function to implement eventloop.
-        //study how the eventloop filter works
-        //break down functions to make it easier to implement.
-        //Analyze how to change the entire code to use signals and slots.
-    //TODO When the file is created, show a Finished message and the Button to open the file.
-    //TODO When the Button is clicked, open the created Excel file.
+    //Check Pamela's error stuff
 
     /*ADDITIONAL FEATURES
      * Add a filter function to filter the loaded data
      * Create a method to define DNF
      * Add a function to add the number of detected locations to the file
      * Research how to create a XLS file using QT.
+     * Add a file that analyses the devices on every location.
      */
 }
 
@@ -82,7 +81,7 @@ void MainWindow::on_selectFileButton_clicked()
     
     QString selectedFilePath = selectFileDialog.getOpenFileName(this,
                                                                 tr("Open MasterCSV"),
-                                                                "C:",
+                                                                "C:/",
                                                                 tr("CSV files (*.csv)"));
 
     if(selectedFilePath==""){
@@ -96,11 +95,27 @@ void MainWindow::on_selectFileButton_clicked()
     file_import_thread.start();
 }
 
+void MainWindow::finishCreatingFilesDialog()
+{
+    QMessageBox finished_dialog;
+
+    finished_dialog.setWindowTitle("FINISHED");
+    finished_dialog.setText("The files are created!");
+    QPushButton *openFileLocationButton = finished_dialog.addButton(tr("Open Location"), QMessageBox::ActionRole);
+
+    finished_dialog.exec();
+
+    if(finished_dialog.clickedButton() == openFileLocationButton)
+    {
+        QDesktopServices::openUrl(QUrl::fromLocalFile( ui->locationTextBrowser->toPlainText()));
+    }
+}
+
 void MainWindow::show_createMenuItems(int value)
 {
     ui->openProgressBar->setValue(value);
     ui->createFileButton->show();
-    ui->createProgressBar->show();
+    ui->processLabel->show();
     ui->locationTextBrowser->show();
     ui->saveLocationLabel->show();
 }
@@ -111,11 +126,16 @@ void MainWindow::on_createFileButton_clicked()
 
     QString selectedLocation = selectLocationDialog.getExistingDirectory(this,
                                                                          tr("Open Location"),
-                                                                         "C:");
+                                                                         "C:/");
     ui->locationTextBrowser->setText( selectedLocation );
     calc.setSaveLocation( selectedLocation );
     qDebug() << "Save Location: " + selectedLocation;
     calc_thread.start();
+}
+
+void MainWindow::update_processingLabel( QString process )
+{
+    ui->processLabel->setText( processLabelText + process );
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

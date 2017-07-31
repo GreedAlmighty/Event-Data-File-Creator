@@ -18,6 +18,10 @@ public:
     calculations();
     ~calculations();
 
+signals:
+    void nowProcessing( QString );
+    void finishedCalculating();
+
 public slots:
     void performCalculations();
 

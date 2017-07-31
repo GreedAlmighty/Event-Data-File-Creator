@@ -24,24 +24,28 @@ void calculations::performCalculations()
     FileCommands data_file;
 
     qDebug() << "Start receiving data";
-    retrieveAllLocations();
+    emit nowProcessing( "calculating data" );
 
+    retrieveAllLocations();
     qDebug() << "Start Calculating Detection Rates";
     QList<QString> *detection_rate_list = getDetectionRates();
-    data_file.WriteFile( save_location + "/detection_rates.csv", (*detection_rate_list));
-    qDebug() << "Detection Rates calculated and written";
-
-    qDebug() << "Start Calculating Detected Location per Chip";
+    qDebug() << "Start Calculating Detection Location per Chip";
     QList<QString> *detection_path_list = retrieveTagsDetectionPath();
-    data_file.WriteFile( save_location + "/tags_detected_on_location.csv", (*detection_path_list));
-    qDebug() << "Detection Location per Chip calculated and written";
-
     qDebug() << "Start Calculating Missed Detection On One Location Only";
     createPathTable((*detection_path_list));
     QList<QString> *location_numbers = calcLocationSpecifics();
+    qDebug() << "Done calculating everything";
+    emit nowProcessing( "done calculating, Writing data to files");
+
+    data_file.WriteFile( save_location + "/detection_rates.csv", (*detection_rate_list));
+    qDebug() << "Detection Rates calculated and written";
+    data_file.WriteFile( save_location + "/tags_detected_on_location.csv", (*detection_path_list));
+    qDebug() << "Detection Location per Chip calculated and written";
     data_file.WriteFile( save_location + "/tags_missed_only_on_location.csv", (*location_numbers));
     qDebug() << "Missed Detection On One Location Only calculated and written";
 
+    emit nowProcessing( "Finished Writing and Calculating Files");
+    emit finishedCalculating();
     qDebug() << "Done Creating Files...";
 }
 
