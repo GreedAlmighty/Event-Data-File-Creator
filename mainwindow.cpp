@@ -12,14 +12,13 @@ QThread calc_thread;
 QThread file_import_thread;
 FileCommands file;
 calculations calc;
-int import_file_size;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle( "Event Data File Analyzer " + SoftwareVersion);
+    this->setWindowTitle( "Event Data File Analyzer " + SoftwareVersion );
 
     ui->fileTextBrowser->setText("please select a file...");
     ui->locationTextBrowser->setText("Please select a location...");
@@ -47,6 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
         //Create a function that writes the whole list
         //In that function, use somekind of delimiter to define
         //A file starting and ending.
+    //TODO Rewrite read/write function to implement eventloop.
+        //study how the eventloop filter works
+        //break down functions to make it easier to implement.
+        //Analyze how to change the entire code to use signals and slots.
     //TODO When the file is created, show a Finished message and the Button to open the file.
     //TODO When the Button is clicked, open the created Excel file.
 

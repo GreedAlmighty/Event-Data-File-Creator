@@ -99,8 +99,15 @@ QList<QString> *calculations::calcLocationSpecifics()
     data_list->append( "Location,Number of Tags that only missed specified location," );
 
     foreach (calc_location, location_list) {
+        calc_location = calc_location.replace(" ", "_");
+        calc_location.replace(" ", "_");
+        calc_location.replace("(", "");
+        calc_location.replace(")", "");
         condition_query = calc_location + "=\"\"";
         foreach(qry, location_list){
+            qry.replace(" ", "_");
+            qry.replace("(", "");
+            qry.replace(")", "");
             if(qry!=calc_location){
                 condition_query.append(" AND " + qry + "=\"x\"");
             }

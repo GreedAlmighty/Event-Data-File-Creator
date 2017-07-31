@@ -194,8 +194,6 @@ int DBCommands::countDistinctValuesWithCondition( QString table, QString column,
     QString qry = qry_cmd.getQueryString();
     qry_cmd.clearQueryString();
 
-    qDebug() << qry;
-
     if(!query.exec(qry)){
         qDebug() << "error with query :" + query.lastError().text();
         qDebug() << qry;
