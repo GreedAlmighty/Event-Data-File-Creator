@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&file, SIGNAL(currentImportPos(int)),
             this, SLOT(on_updateProgressBar(int)));
 
-    //Check Pamela's error stuff
     //Clean up code
 
     /*ADDITIONAL FEATURES

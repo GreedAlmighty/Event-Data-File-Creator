@@ -201,7 +201,7 @@ int DBCommands::countDistinctValuesWithCondition( QString table, QString column,
     if(query.last()){
         return query.at() + 1;
     }
-    return -1;
+    return 0;
 }
 
 int DBCommands::countValuesWithCondition( QString table, QString column, QString condition )

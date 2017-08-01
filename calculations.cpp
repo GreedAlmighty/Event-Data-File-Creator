@@ -118,6 +118,7 @@ QList<QString> *calculations::calcLocationSpecifics()
                 condition_query.append(" AND " + qry + "=\"x\"");
             }
         }
+        qDebug() << condition_query;
         number = number.number( db_command.countDistinctValuesWithCondition(path_table, "Chipcode", condition_query ) );
         data_list->append( calc_location + "," + number +",");
     }
