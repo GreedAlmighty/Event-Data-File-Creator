@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /*ADDITIONAL FEATURES
      * Add a filter function to filter the loaded data
      * Create a method to define DNF
-     * Add a function to add the number of detected locations to the file
+     * Create additional error processing when a file is imported with more then 12 values
      * Research how to create a XLS file using QT.
      * Add a file that analyses the devices on every location.
      * Add a function to define the course. (same location used multiple times)
