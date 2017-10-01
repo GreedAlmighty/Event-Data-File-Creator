@@ -1,4 +1,5 @@
 #include <QString>
+#include <QStringList>
 #include <QDebug>
 #include "textedits.h"
 #include "databasecommands.h"

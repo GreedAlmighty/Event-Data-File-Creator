@@ -52,12 +52,27 @@ MainWindow::MainWindow(QWidget *parent) :
     //Clean up code
 
     /*ADDITIONAL FEATURES
-     * Add a filter function to filter the loaded data
-     * Create a method to define DNF
-     * Create additional error processing when a file is imported with more then 12 values
-     * Research how to create a XLS file using QT.
-     * Add a file that analyses the devices on every location.
-     * Add a function to define the course. (same location used multiple times)
+  3  * Add a filter function to filter the loaded data
+        * first make sure to create a single nameable xls file
+        * make a separate class that holds the selected filters in a list
+        * for every filter, a file is created with the designated filename
+        * make sure a warning is given when the filename is the same
+  4  * Create a method to define DNF
+        * This will become very easy with the filter.
+        * make sure that the DNF don't add from the total.
+        * show both in the file
+  1  * Create additional error processing when a file is imported with more then 12 values
+        * easy to do should do this first
+  2  * Research how to create a XLS file using QT.
+        * I've seen an external library that can be used to do this
+        * Investigate this and master the library
+        * will probably take a weekend
+  5  * Add a file that analyses the devices on every location.
+        * will need to get a list of all devices first
+        * then calculate the detections like with the locations
+        * could also calculate the detection ratio on that location specific
+  6  * Add a function to define the course. (same location used multiple times)
+        * a little harder to do, will need to think more on how to do this.
      */
 }
 
