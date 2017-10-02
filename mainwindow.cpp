@@ -73,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
         * could also calculate the detection ratio on that location specific
   6  * Add a function to define the course. (same location used multiple times)
         * a little harder to do, will need to think more on how to do this.
+  7  * Create a report calculating the detection density
      */
 }
 
